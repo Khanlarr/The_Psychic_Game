@@ -23,24 +23,25 @@ class PsychicGame{
     return letters[letterIndex];
     }
     comp_gs=this.CompGuess();
-    EventListener(e){
-            this.your_guess=e.key;
-            if(this.gs_left<=1){
-                this.losses++;
-                this.gs_left=10;
+
+    Reset(){
+              this.gs_left=9;
                 this.comp_gs=this.CompGuess();
                 this.your_guess='';
                 this.your_gs.textContent=''
-            }
-            if(this.comp_gs!==this.your_guess){
+    }
+    EventListener(e){
+            this.your_guess=e.key;
+         
+            if(this.gs_left<=1 && !this.your_gs.textContent.includes(this.your_guess)){
+                this.losses++;
+                this.Reset();
+            }  if(this.comp_gs!==this.your_guess && !this.your_gs.textContent.includes(this.your_guess)){
                 this.gs_left--;
             }
             else if(this.comp_gs===this.your_guess){
                 this.wins++;
-                this.gs_left=9;
-                this.comp_gs=this.CompGuess();
-                this.your_guess='';    
-                this.your_gs.textContent=''         
+                this.Reset();         
             }
     }
 }
@@ -52,5 +53,5 @@ window.addEventListener('keyup',(e)=>{
     wins1.textContent=x.wins;
     losses1.textContent=x.losses;
     gs_left1.textContent=x.gs_left;
-    your_gs.textContent+=' '+x.your_guess;
+    if(!your_gs.textContent.includes(x.your_guess)){your_gs.textContent+=' '+x.your_guess;}
 })
